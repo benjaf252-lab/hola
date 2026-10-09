@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRAINROT ZONE</title>
+<style>
+  :root {
+    --bg: #0b0014;
+    --pink: #ff2e93;
+    --cyan: #00f0ff;
+    --lime: #b6ff00;
+    --yellow: #ffe600;
+    --card: #1a0630;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: #fff;
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(255,46,147,.25), transparent 40%),
+      radial-gradient(circle at 80% 40%, rgba(0,240,255,.2), transparent 40%),
+      radial-gradient(circle at 50% 90%, rgba(182,255,0,.15), transparent 40%);
+    background-attachment: fixed;
+  }
+
+  /* Marquee */
+  .marquee {
+    background: var(--yellow);
+    color: #000;
+    font-weight: 900;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 8px 0;
+    letter-spacing: 2px;
+  }
+  .marquee span {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scroll 18s linear infinite;
+  }
+  @keyframes scroll { to { transform: translateX(-100%); } }
+
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+    padding: 14px;
+    background: rgba(11,0,20,.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid var(--pink);
+  }
+  nav a {
+    color: var(--cyan); text-decoration: none; font-weight: 800;
+    text-transform: uppercase; font-size: .9rem; letter-spacing: 1px;
+  }
+  nav a:hover { color: var(--lime); }
+
+  /* Hero */
+  header.hero {
+    text-align: center;
+    padding: 90px 20px 70px;
+  }
+  .glitch {
+    font-size: clamp(2.8rem, 12vw, 8rem);
+    font-weight: 900;
+    line-height: 1;
+    position: relative;
+    display: inline-block;
+    text-transform: uppercase;
+    text-shadow: 4px 4px 0 var(--pink), -4px -4px 0 var(--cyan);
+    animation: shake 2.5s infinite;
+  }
+  .glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute; inset: 0;
+    overflow: hidden;
+  }
+  .glitch::before {
+    color: var(--lime);
+    clip-path: inset(0 0 60% 0);
+    animation: slice1 1.8s infinite linear alternate-reverse;
+  }
+  .glitch::after {
+    color: var(--yellow);
+    clip-path: inset(60% 0 0 0);
+    animation: slice2 2.2s infinite linear alternate-reverse;
+  }
+  @keyframes slice1 { 0%{transform:translate(-4px,0)} 50%{transform:translate(5px,-2px)} 100%{transform:translate(-2px,2px)} }
+  @keyframes slice2 { 0%{transform:translate(4px,0)} 50%{transform:translate(-5px,2px)} 100%{transform:translate(2px,-2px)} }
+  @keyframes shake {
+    0%,92%,100% { transform: translate(0,0) rotate(0); }
+    94% { transform: translate(-6px,3px) rotate(-1deg); }
+    96% { transform: translate(6px,-3px) rotate(1deg); }
+    98% { transform: translate(-3px,2px) rotate(0); }
+  }
+  .hero p {
+    margin: 26px auto 0;
+    max-width: 600px;
+    font-size: 1.2rem;
+    color: #e6d6ff;
+  }
+  .btn {
+    display: inline-block;
+    margin-top: 32px;
+    padding: 16px 34px;
+    background: var(--pink);
+    color: #fff;
+    font-weight: 900;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    border: 3px solid #fff;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 6px 6px 0 var(--cyan);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn:hover { transform: translate(-3px,-3px) rotate(-2deg); box-shadow: 9px 9px 0 var(--lime); }
+  .btn:active { transform: translate(3px,3px); box-shadow: 2px 2px 0 var(--lime); }
+
+  section { padding: 70px 20px; max-width: 1150px; margin: 0 auto; }
+  h2 {
+    font-size: clamp(2rem, 6vw, 3.4rem);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 14px;
+    color: var(--lime);
+    text-shadow: 3px 3px 0 var(--pink);
+  }
+  .sub { text-align: center; color: #cdb8ee; margin-bottom: 44px; }
+
+  /* Cards */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 26px;
+  }
+  .card {
+    background: var(--card);
+    border: 3px solid var(--cyan);
+    border-radius: 20px;
+    padding: 26px 22px;
+    text-align: center;
+    position: relative;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+    cursor: pointer;
+  }
+  .card:hover {
+    transform: translateY(-8px) rotate(-1.5deg);
+    border-color: var(--pink);
+    box-shadow: 0 0 30px rgba(255,46,147,.6);
+  }
+  .card .emoji {
+    font-size: 4.2rem;
+    display: block;
+    margin-bottom: 8px;
+    transition: transform .3s;
+  }
+  .card:hover .emoji { animation: spin .6s ease; }
+  @keyframes spin { to { transform: rotate(360deg) scale(1.2); } }
+  .card h3 { color: var(--yellow); font-size: 1.3rem; margin-bottom: 10px; text-transform: uppercase; }
+  .card p { font-size: .95rem; color: #d9c8f5; }
+  .tag {
+    position: absolute; top: -14px; right: 14px;
+    background: var(--lime); color: #000;
+    font-weight: 900; font-size: .75rem;
+    padding: 4px 10px; border-radius: 20px;
+    text-transform: uppercase;
+    transform: rotate(4deg);
+  }
+  .meter { margin-top: 14px; height: 10px; background: #000; border-radius: 10px; overflow: hidden; }
+  .meter div { height: 100%; background: linear-gradient(90deg, var(--lime), var(--yellow), var(--pink)); }
+
+  /* Generator */
+  .generator {
+    background: var(--card);
+    border: 3px dashed var(--yellow);
+    border-radius: 24px;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  #result {
+    font-size: clamp(1.6rem, 5vw, 2.8rem);
+    font-weight: 900;
+    min-height: 3.5em;
+    margin: 20px 0 6px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    word-break: break-word;
+  }
+
+  /* Counter */
+  .counter { text-align: center; }
+  #rotCount {
+    font-size: clamp(3rem, 12vw, 7rem);
+    font-weight: 900;
+    color: var(--pink);
+    text-shadow: 0 0 20px var(--pink);
+  }
+  #rotLabel { color: var(--yellow); font-weight: 800; margin-top: 6px; min-height: 1.5em; }
+
+  footer {
+    text-align: center;
+    padding: 40px 20px 60px;
+    border-top: 2px solid var(--pink);
+    color: #a58bd0;
+  }
+
+  /* Floating emojis */
+  .float {
+    position: fixed;
+    pointer-events: none;
+    font-size: 2rem;
+    z-index: 50;
+    animation: rise 1.6s ease-out forwards;
+  }
+  @keyframes rise {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to { opacity: 0; transform: translateY(-160px) scale(1.8) rotate(40deg); }
+  }
+</style>
+</head>
+<body>
+
+<div class="marquee"><span>🧠 BRAINROT ZONE 🧠 TUNG TUNG TUNG SAHUR 🥁 TRALALERO TRALALA 🦈 SKIBIDI 🚽 SIGMA 😎 OHIO 🌽 RIZZ ✨ BOMBARDIRO CROCODILO 🐊 ESTÁS ADVERTIDO ⚠️ TU CEREBRO YA NO ES TUYO 🧠</span></div>
+
+<nav>
+  <a href="#inicio">Inicio</a>
+  <a href="#personajes">Personajes</a>
+  <a href="#generador">Generador</a>
+  <a href="#contador">Contador</a>
+</nav>
+
+<header class="hero" id="inicio">
+  <h1 class="glitch" data-text="BRAINROT">BRAINROT</h1>
+  <p>El museo definitivo del contenido que te derritió el cerebro. Entrá bajo tu propio riesgo. No nos hacemos responsables de tu capacidad de atención.</p>
+  <a href="#personajes" class="btn">Pudrirme el cerebro 🧠</a>
+</header>
+
+<section id="personajes">
+  <h2>Los Personajes</h2>
+  <p class="sub">Hacé click en cada tarjeta para sumar puntos de podredumbre.</p>
+  <div class="grid">
+
+    <div class="card" data-emoji="🥁">
+      <span class="tag">Clásico</span>
+      <span class="emoji">🥁</span>
+      <h3>Tung Tung Tung Sahur</h3>
+      <p>Un tronco con bate que te despierta a la madrugada. Si lo oís tres veces, ya es tarde.</p>
+      <div class="meter"><div style="width:92%"></div></div>
+    </div>
+
+    <div class="card" data-emoji="🦈">
+      <span class="tag">Legend</span>
+      <span class="emoji">🦈</span>
+      <h3>Tralalero Tralala</h3>
+      <p>Tiburón con zapatillas de marca. Camina más rápido que vos al gimnasio.</p>
+      <div class="meter"><div style="width:88%"></div></div>
+    </div>
+
+    <div class="card" data-emoji="🐊">
+      <span class="tag">Peligro</span>
+      <span class="emoji">🐊</span>
+      <h3>Bombardiro Crocodilo</h3>
+      <p>Mitad cocodrilo, mitad bombardero. Su único argumento es la altitud.</p>
+      <div class="meter"><div style="width:80%"></div></div>
+    </div>
+
+    <div class="card" data-emoji="☕">
+      <span class="tag">Elegante</span>
+      <span class="emoji">☕</span>
+      <h3>Ballerina Cappuccina</h3>
+      <p>Cabeza de taza de capuchino y mucho estilo. Baila con más gracia que tu ex.</p>
+      <div class="meter"><div style="width:75%"></div></div>
+    </div>
+
+    <div class="card" data-emoji="🍌">
+      <span class="tag">Caos</span>
+      <span class="emoji">🍌</span>
+      <h3>Chimpanzini Bananini</h3>
+      <p>Un chimpancé dentro de una banana. No pidas explicaciones, solo aceptalo.</p>
+      <div class="meter"><div style="width:84%"></div></div>
+    </div>
+
+    <div class="card" data-emoji="🐘">
+      <span class="tag">Zen</span>
+      <span class="emoji">🐘</span>
+      <h3>Lirili Larila</h3>
+      <p>Elefante con patas de cactus que camina por el desierto. Paz interior garantizada.</p>
+      <div class="meter"><div style="width:70%"></div></div>
+    </div>
+
+    <div class="card" data-emoji="🚽">
+      <span class="tag">OG</span>
+      <span class="emoji">🚽</span>
+      <h3>Skibidi Toilet</h3>
+      <p>Donde todo empezó. Un inodoro cantando que cambió internet para siempre.</p>
+      <div class="meter"><div style="width:95%"></div></div>
+    </div>
+
+    <div class="card" data-emoji="🌽">
+      <span class="tag">Misterio</span>
+      <span class="emoji">🌽</span>
+      <h3>Only in Ohio</h3>
+      <p>Si algo raro pasó, seguro fue en Ohio. Nadie sabe por qué, y nadie pregunta.</p>
+      <div class="meter"><div style="width:78%"></div></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="generador">
+  <h2>Generador de Brainrot</h2>
+  <p class="sub">Creá tu propio personaje italiano imposible de pronunciar.</p>
+  <div class="generator">
+    <div id="result">Apretá el botón...</div>
+    <button class="btn" id="genBtn">Generar 🎲</button>
+  </div>
+</section>
+
+<section id="contador" class="counter">
+  <h2>Nivel de Podredumbre</h2>
+  <p class="sub">Cada click en una tarjeta o en el generador suma puntos.</p>
+  <div id="rotCount">0</div>
+  <div id="rotLabel">Cerebro sano 🙂</div>
+</section>
+
+<footer>
+  <p>🧠 Brainrot Zone — hecho con cariño y cero neuronas 🧠</p>
+  <p style="margin-top:8px;font-size:.85rem;">Página de humor. Cualquier parecido con tu historial de TikTok es pura coincidencia.</p>
+</footer>
+
+<script>
+  let score = 0;
+  const scoreEl = document.getElementById('rotCount');
+  const labelEl = document.getElementById('rotLabel');
+
+  function labelFor(n) {
+    if (n >= 100) return 'CEREBRO 100% LÍQUIDO 🫠';
+    if (n >= 60) return 'Skibidi nivel dios 🚽👑';
+    if (n >= 30) return 'Ya hablás en italiano inventado 🇮🇹';
+    if (n >= 10) return 'Empezando a pudrirse 🧟';
+    return 'Cerebro sano 🙂';
+  }
+
+  function addScore(points, x, y, emoji) {
+    score += points;
+    scoreEl.textContent = score;
+    labelEl.textContent = labelFor(score);
+    const f = document.createElement('div');
+    f.className = 'float';
+    f.textContent = emoji;
+    f.style.left = (x - 16) + 'px';
+    f.style.top = (y - 16) + 'px';
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 1600);
+  }
+
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', e => addScore(3, e.clientX, e.clientY, card.dataset.emoji));
+  });
+
+  // Generador
+  const starts = ['Tung', 'Bombi', 'Cappu', 'Lira', 'Tra', 'Banani', 'Croco', 'Frigo', 'Sahu', 'Pizzi', 'Gato', 'Espagheti'];
+  const mids = ['lero', 'nini', 'dilo', 'rilla', 'tino', 'gusi', 'ccino', 'bombi', 'laro', 'pasta'];
+  const ends = ['Tralala', 'Bananini', 'Crocodilo', 'Assassino', 'Larila', 'Sahur', 'Mozzarella', 'Gusini', 'Pepperoni', 'Ballerino'];
+  const animals = ['🐊','🦈','🐘','🐒','🐱','🐸','🦆','🐙','🐢','🦒'];
+  const objs = ['☕','🍌','🥁','🍕','🚁','👟','🍝','🚽','🪵','🧀'];
+  const rand = arr => arr[Math.floor(Math.random() * arr.length)];
+
+  document.getElementById('genBtn').addEventListener('click', e => {
+    const name = rand(starts) + rand(mids) + ' ' + rand(ends);
+    const combo = rand(animals) + rand(objs);
+    document.getElementById('result').textContent = combo + ' ' + name;
+    addScore(5, e.clientX, e.clientY, '🧠');
+  });
+</script>
+</body>
+</html>
